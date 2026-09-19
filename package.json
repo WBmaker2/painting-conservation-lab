@@ -1,0 +1,22 @@
+{
+  "name": "painting-conservation-lab",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "그림 속 시간을 복원하는 연구실 — 가상 회화 보존 근거 판단 랩 (P0)",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "check": "tsc --noEmit",
+    "test": "vitest run",
+    "verify:render": "npm run build && node tests/render-check.mjs"
+  },
+  "devDependencies": {
+    "happy-dom": "^20.14.5",
+    "playwright": "^1.63.0",
+    "typescript": "^5.6.3",
+    "vite": "^6.0.3",
+    "vitest": "^5.0.1"
+  }
+}
