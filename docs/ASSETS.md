@@ -34,13 +34,28 @@
 숨은상태 균형: grime 8 / overpaint 8 / umber 8 (24영역).
 
 ## w01 레코드 (시험 배치 — 확정)
-
 - w01-full: 기준 원화. prompt v1. 원본 `assets/works/raw/w01-full.png` (1200×896) → `public/works/w01-full.webp` 104KB. 문자 없음, 우측 사과 음영. 확정.
 - w01-zoom: w01-full 편집 (우측 사과 근접, 동일 붓결·조명). webp 115KB. 확정.
 - w01-rake: w01-full 편집 (좌측 측면광, 동일 구도). webp 116KB. 확정.
 - w01-layerbg: 신규 (1회 정책 오탐지 후 문구 바꿔 재시도 성공). webp 16KB. 확정.
 - w01-before: w01-full 재사용. 확정.
 - w01-after: w01-full 편집 (먼지막 완화, 동일 구도·조명). webp 85KB. 확정.
+
+## w02–w12 레코드 (일괄 — 확정)
+
+전종 1200×896 PNG 원본(`assets/works/raw/`) → WebP(`public/works/`). 문자 없음, 동일 구도·조명 검수.
+- w02 푸른 두건: full 64KB / zoom 144KB(q60) / rake 113KB(q60) / layerbg 22KB / after 44KB. before=full 재사용.
+- w03 갈대밭: full 101KB / zoom 75KB / rake 141KB / layerbg 13KB / after 121KB(q60).
+- w04 노란 모과: full 135KB / zoom 90KB / rake 102KB / layerbg 25KB / after 98KB.
+- w05 붉은 숄: full 72KB / zoom 143KB(q60) / rake 109KB / layerbg 18KB / after 60KB.
+- w06 안개 항구: full 93KB / zoom 124KB / rake 105KB(q60) / layerbg 10KB / after 82KB.
+- w07 푸른 병: full 138KB / zoom 93KB / rake 116KB / layerbg 12KB / after 113KB.
+- w08 검은 모자: full 101KB / zoom 131KB / rake 131KB / layerbg 28KB / after 94KB.
+- w09 겨울 들판: full 122KB(q60) / zoom 135KB(q50) / rake 181KB(q50, 관찰 장면 500KB 기준 내 예외 기록) / layerbg 11KB / after 107KB(q60).
+- w10 포도와 호두: full 98KB / zoom 131KB / rake 80KB / layerbg 24KB / after 84KB.
+- w11 흰 깃: full 126KB / zoom 145KB / rake 112KB / layerbg 6KB / after 113KB.
+- w12 노을 강둑: full 143KB(q50) / zoom 145KB(q50) / rake 159KB(q50, 위와 동일 예외) / layerbg 30KB / after 121KB(q50).
+- 원본 합계 11MB, 배포분 합계 6.0MB. 실패 2회(정책 오탐지 각 1회, 문구 변경 후 성공).
 
 ## 프롬프트 템플릿 (고정 요소 / 변경 요소)
 
