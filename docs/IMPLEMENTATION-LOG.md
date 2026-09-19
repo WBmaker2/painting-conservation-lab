@@ -38,6 +38,11 @@
 - 렌더: 320·360·768·1280 넘침 0px·에러 0·CTA 1개. `npm run verify:render`로 재현. 샷 `/tmp/render-shots`目视 정상.
 - 미결: Lighthouse, 배포·HVC 주소 (배포처 확정 시).
 
+## 2026-09-19 — 700 단일 웨이트 (2번 선택)
+
+- 표시용 명조는 제목 bold(700)에서만 사용, 600은 시스템 폰트 영역 → 시각 변화 없이 폰트 260→141KB.
+- 재측정: 모바일 76점·TTI 4.0s·CLS 0. `DESIGN.md`에 700 only 명기.
+
 ## 2026-09-19 — Lighthouse 실측 + 폰트 비동기화
 
 - 공개 URL 기준 Lighthouse 12 (headless chromium): 모바일 71점·TTI 4.7s·CLS 0, 데스크톱 99점·TTI 0.8s·CLS 0.
