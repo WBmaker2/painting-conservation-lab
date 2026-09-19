@@ -49,6 +49,27 @@ export function observationSVG(obs: Observation, region: RegionState | undefined
       <text x="16" y="132" font-size="10" fill="#cbd5e1">${label}${hasStep ? ' · 경계 단차(노랑 점선)' : ' · 단차 없음'}</text>
     </svg>`;
   }
+  if (obs.svgKind === 'ir') {
+    const covered = obs.ruleId.startsWith('overpaint');
+    return `<svg viewBox="0 0 260 150" role="img" aria-label="적외선 도식: ${label}">
+      <rect x="6" y="6" width="248" height="138" rx="10" fill="#101c33" />
+      <text x="16" y="26" font-size="11" fill="#bfdbfe">적외선 — 표면 투과 (가상 모식)</text>
+      <path d="M30 100 Q80 60 130 95 T230 85" stroke="#93c5fd" stroke-width="2.5" fill="none" stroke-dasharray="6 3" />
+      ${covered ? '<path d="M40 110 Q110 90 170 105" stroke="#f87171" stroke-width="3" fill="none" /><text x="16" y="132" font-size="10" fill="#fecaca">' + label + ' · 밑그림과 표면 어긋남(빨강)</text>' : '<text x="16" y="132" font-size="10" fill="#bfdbfe">' + label + ' · 밑그림 일치(파랑 점선)</text>'}
+    </svg>`;
+  }
+  if (obs.svgKind === 'uv') {
+    const spots = obs.ruleId.startsWith('overpaint') || obs.ruleId.startsWith('grime');
+    const patches = spots
+      ? '<ellipse cx="90" cy="85" rx="26" ry="14" fill="#7c3aed" opacity="0.85" /><ellipse cx="170" cy="95" rx="20" ry="11" fill="#7c3aed" opacity="0.7" />'
+      : '<rect x="30" y="66" width="200" height="38" rx="6" fill="#4c1d95" opacity="0.55" />';
+    return `<svg viewBox="0 0 260 150" role="img" aria-label="자외선 도식: ${label}">
+      <rect x="6" y="6" width="248" height="138" rx="10" fill="#1e1033" />
+      <text x="16" y="26" font-size="11" fill="#ddd6fe">자외선 — 형광 (가상 모식)</text>
+      ${patches}
+      <text x="16" y="132" font-size="10" fill="#ddd6fe">${label}</text>
+    </svg>`;
+  }
   const dusty = obs.ruleId.startsWith('grime');
   const dots = dusty
     ? Array.from({ length: 26 }, (_, i) => {

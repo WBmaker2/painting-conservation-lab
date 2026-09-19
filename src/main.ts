@@ -1,7 +1,7 @@
 import './style.css';
 import type { DecisionAction, EvidenceLink, HypothesisId, Observation, Phase, RunRecord, TestId } from '../models/types.js';
 import { getArtwork, getRegion, listArtworks, validatePrediction } from '../engine/caseModel.js';
-import { TESTS, observe, observationKey } from '../engine/observationRules.js';
+import { TESTS, observe, observationKey, planCombos } from '../engine/observationRules.js';
 import { BUDGET_START, canAfford, charge, createBudget, remaining, type BudgetState } from '../engine/budget.js';
 import { HYPOTHESIS_META, linkEvidence, summarizeConsistency } from '../engine/evidenceValidator.js';
 import { artworkThumbSVG, observationSVG } from '../views/ArtworkCompare.js';
@@ -9,7 +9,7 @@ import { decisionSummaryHTML } from '../views/DecisionReport.js';
 import { downloadJSON, loadRecords, saveRecord } from './storage.js';
 
 const ENGINE_VERSION = '0.1.0';
-const SCENARIO_VERSION = 'p0-3works';
+const SCENARIO_VERSION = 'p1-5tests';
 
 interface State {
   phase: Phase;
@@ -137,7 +137,7 @@ function render(): void {
   </main></div>
   <dialog id="changelog" aria-label="업데이트 내역">
     <h3 style="margin-top:0">업데이트 내역</h3>
-    <ul class="small"><li><strong>2026-09-19 (공개 배포)</strong> — 공개 URL에서 자산 200 확인.</li><li><strong>2026-09-19 (승인 후 실측)</strong> — 하위 경로·4폭 렌더·전 여정 클릭 확인, 테스트 25개.</li><li><strong>2026-09-19 (배포 전 개선)</strong> — 서브패스 경로·파비콘, 입력 검증·저장 복구·인쇄.</li><li><strong>2026-09-19 (P0 스캐폴드)</strong> — 작품 3점·영역 2개씩·조사 3종·예산 6점·증거연결·보고서.</li><li><strong>2026-09-15</strong> — 설계 확정 (공통원칙·09 문서).</li></ul>
+    <ul class="small"><li><strong>2026-09-19 (P1)</strong> — 적외선·자외선 조사, 예산 조합 안내, 전문가 관점.</li><li><strong>2026-09-19 (공개 배포)</strong> — 공개 URL에서 자산 200 확인.</li><li><strong>2026-09-19 (승인 후 실측)</strong> — 하위 경로·4폭 렌더·전 여정 클릭 확인, 테스트 25개.</li><li><strong>2026-09-19 (배포 전 개선)</strong> — 서브패스 경로·파비콘, 입력 검증·저장 복구·인쇄.</li><li><strong>2026-09-19 (P0 스캐폴드)</strong> — 작품 3점·영역 2개씩·조사 3종·예산 6점·증거연결·보고서.</li><li><strong>2026-09-15</strong> — 설계 확정 (공통원칙·09 문서).</li></ul>
     <button class="ghost-btn" id="closeLog" type="button">닫기</button>
   </dialog>`;
 
@@ -229,6 +229,8 @@ function controlPanel(artTitle: string, regionLabel: string): string {
       <span class="small muted">${escapeHtml(t.range)}</span><span class="small muted">한계: ${escapeHtml(t.limitations)}</span>
       <button class="btn ${done ? 'secondary' : ''}" type="button" data-test="${t.id}" ${done ? 'disabled' : ''}>${done ? '관찰 완료 — 다시 차감 안 함' : `${escapeHtml(t.label)} 요청하기`}</button></div>`;
     }).join('')}</div>
+    <h3>남은 예산으로 가능한 조합 (전략 비교)</h3>
+    ${strategyTable()}
     <p class="hint">취소·로드 실패는 차감하지 않습니다. 같은 숨은 상태·검사는 같은 관찰을 반환합니다.</p>`;
   }
   if (state.phase === 'evidence') {
@@ -249,10 +251,12 @@ function controlPanel(artTitle: string, regionLabel: string): string {
   }
   if (state.phase === 'deciding') {
     const d = state.decision ?? { action: 'keep' as DecisionAction, uncertainty: '', reversibility: '', effect: '' };
+    const art = getArtwork(state.artworkId);
     return `
+    <div class="expert"><strong>전문가 관점 (참고)</strong><p>${escapeHtml(art?.expertNote ?? '')}</p></div>
     <div class="field"><span class="legend">결정 (하나만)</span><div class="checks" role="radiogroup" aria-label="보존 결정">
       ${([['keep', '유지'], ['investigate', '추가 조사'], ['simulatedRemovalPreview', '가상 미리보기']] as [DecisionAction, string][]).map(([v, l]) => `
-      <button class="check" role="radio" aria-checked="${d.action === v}" aria-pressed="${d.action === v}" type="button" data-action="${v}">${l}</button>`).join('')}
+      <button class="check" role="radio" aria-checked="${d.action === v}" type="button" data-action="${v}">${l}</button>`).join('')}
     </div></div>
     <div class="field"><label>기대 효과 (500자 이내)<textarea id="fEffect" class="text" maxlength="500">${escapeHtml(d.effect)}</textarea></label></div>
     <div class="field"><label>남은 불확실성 (500자 이내)<textarea id="fUnc" class="text" maxlength="500">${escapeHtml(d.uncertainty)}</textarea></label></div>
@@ -270,8 +274,17 @@ function controlPanel(artTitle: string, regionLabel: string): string {
     <div class="btn-row"><button class="btn secondary" id="resetBtn" type="button">처음부터 다시</button></div>`;
 }
 
-function layerTable(): string {
-  const r = currentRegion();
+function strategyTable(): string {
+  const usedIds = state.observations.map((o) => o.testId);
+  const combos = planCombos(remaining(state.budget), usedIds);
+  if (combos.length === 0) return '<p class="hint">남은 예산으로 새 조사를 고를 수 없습니다.</p>';
+  const rows = combos
+    .map((c) => `<tr><td>${c.tests.map((t) => escapeHtml(testLabel(t))).join(' + ')}</td><td class="mono">${c.cost}점</td></tr>`)
+    .join('');
+  return `<table class="strategy"><thead><tr><th>조합</th><th>비용</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+function layerTable(): string {  const r = currentRegion();
   if (!r) return '<p>영역 없음</p>';
   return `<table class="compat"><thead><tr><th>층</th><th>상태 (도식)</th></tr></thead><tbody>
     <tr><td>지지체</td><td>${escapeHtml(r.hidden.support)}</td></tr>

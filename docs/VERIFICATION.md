@@ -49,6 +49,12 @@
 - 오개념 방지 문구 내장: ‘AI가 원래 색을 알아낸다’ 경고, 표면 단정 금지, 보류 정답 인정.
 - 테스트 통과≠수업 효과. 성취기준 공식 매핑은 별도 검토로 남김.
 
+## 5b. 접근성·인쇄 실측 (2026-09-19, `node tests/access-check.mjs`)
+
+- reduced-motion: `animation-name: none` + 3px 황토 테두리, 에러 0. 통과.
+- axe (wcag2a·2aa, 5단계 전수): 초회 deciding에서 `aria-allowed-attr` critical 1건 — `role=radio` 버튼의 `aria-pressed`가 원인. `aria-checked`로 단일화 + 선택 스타일 CSS 이관 후 재측정 0건. 통과.
+- 인쇄: print 에뮬레이션目视 정상(상단바·버튼 숨김, 호환표 유지). headless PDF 296KB 생성 확인.
+
 ## 6. 배포 승인 후 (2026-09-19 승인 — 실측 완료)
 
 - [x] 하위 경로 서빙 확인: `dist`를 `/painting-conservation-lab/` 하위에 서빙, 페이지·JS·CSS·파비콘 전부 200, html 내 참조 전부 상대경로(`./`), 외부 절대경로는 폰트 CDN만.

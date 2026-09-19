@@ -19,6 +19,10 @@ describe('caseModel', () => {
     for (const a of CASES) expect(a.rightsNote.length).toBeGreaterThan(0);
   });
 
+  it('작품마다 전문가 노트 존재', () => {
+    for (const a of CASES) expect(a.expertNote.length).toBeGreaterThan(0);
+  });
+
   it('getRegion 미존재 → undefined', () => {
     expect(getRegion('nope', 'x')).toBeUndefined();
     expect(getArtwork('nope')).toBeUndefined();
@@ -39,7 +43,7 @@ describe('observationRules', () => {
     expect((a as { ruleId: string }).ruleId).toBe('grime-thin::visibleZoom');
   });
 
-  it('3 hidden × 3 test = 9 규칙 전수 존재', () => {
+  it('3 hidden × 5 test = 15 규칙 전수 존재', () => {
     const ids = ['grime-thin', 'overpaint-cover', 'original-umber'];
     for (const hid of ids)
       for (const t of TESTS) {
@@ -50,10 +54,13 @@ describe('observationRules', () => {
       }
   });
 
-  it('비용표 1/2/3 고정', () => {
+  it('비용표 1/2/3 + P1 2/2 고정', () => {
     expect(TESTS.find((t) => t.id === 'visibleZoom')?.cost).toBe(1);
     expect(TESTS.find((t) => t.id === 'rakingLight')?.cost).toBe(2);
     expect(TESTS.find((t) => t.id === 'layerDiagram')?.cost).toBe(3);
+    expect(TESTS.find((t) => t.id === 'infrared')?.cost).toBe(2);
+    expect(TESTS.find((t) => t.id === 'ultraviolet')?.cost).toBe(2);
+    expect(TESTS).toHaveLength(5);
   });
 
   it('빈 입력·미지원 조사 → error (비용 차감 없음 전제)', () => {

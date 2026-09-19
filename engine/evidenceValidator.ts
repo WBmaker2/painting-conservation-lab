@@ -47,6 +47,36 @@ const MATRIX: Matrix = {
     'surface-deposit': { verdict: 'incompatible', memo: '표면 침적층이 없음' },
     'overpaint': { verdict: 'incompatible', memo: '덧칠층이 없음' },
     'original-dark': { verdict: 'compatible', memo: '물감층 자체가 어두운 안료' }
+  },
+  'grime-thin::infrared': {
+    'surface-deposit': { verdict: 'compatible', memo: '오염막 투과 + 아래 붓결·밑그림 유지' },
+    'overpaint': { verdict: 'incompatible', memo: '덧칠 특유의 덮인 윤곽이 없음' },
+    'original-dark': { verdict: 'undetermined', memo: '원래 안료의 붓결도 투과되어 보일 수 있음' }
+  },
+  'grime-thin::ultraviolet': {
+    'surface-deposit': { verdict: 'compatible', memo: '표면막 특유의 얼룩 형광' },
+    'overpaint': { verdict: 'incompatible', memo: '보수 반점 양상이 없음' },
+    'original-dark': { verdict: 'undetermined', memo: '원래 안료 위 오염도 가능해 단독 확정 불가' }
+  },
+  'overpaint-cover::infrared': {
+    'surface-deposit': { verdict: 'incompatible', memo: '오염막 투과가 아닌 별도 층의 윤곽 어긋남' },
+    'overpaint': { verdict: 'compatible', memo: '덧칠 아래 원래 밑그림 + 표면 윤곽 어긋남' },
+    'original-dark': { verdict: 'incompatible', memo: '원래 음영이면 밑그림과 표면이 어긋나지 않음' }
+  },
+  'overpaint-cover::ultraviolet': {
+    'surface-deposit': { verdict: 'incompatible', memo: '오염 얼룩이 아닌 보수 반점 양상' },
+    'overpaint': { verdict: 'compatible', memo: '덧칠 부위의 형광 억제 반점' },
+    'original-dark': { verdict: 'incompatible', memo: '원래 바니시면 고른 형광이어야 함' }
+  },
+  'original-umber::infrared': {
+    'surface-deposit': { verdict: 'undetermined', memo: '얇은 오염도 적외선을 투과해 구별 불가' },
+    'overpaint': { verdict: 'incompatible', memo: '덧칠 경계·덮인 윤곽이 없음' },
+    'original-dark': { verdict: 'compatible', memo: '안료 자체 흡수 + 밑그림 왜곡 없음' }
+  },
+  'original-umber::ultraviolet': {
+    'surface-deposit': { verdict: 'undetermined', memo: '얇은 오염도 고르게 보일 수 있어 단독 판단 불가' },
+    'overpaint': { verdict: 'incompatible', memo: '보수 반점이 없음' },
+    'original-dark': { verdict: 'compatible', memo: '고른 바니시 형광, 덧칠·오염 징후 없음' }
   }
 };
 

@@ -38,6 +38,19 @@
 - 렌더: 320·360·768·1280 넘침 0px·에러 0·CTA 1개. `npm run verify:render`로 재현. 샷 `/tmp/render-shots`目视 정상.
 - 미결: Lighthouse, 배포·HVC 주소 (배포처 확정 시).
 
+## 2026-09-19 — P1 (신규조사·전략비교·전문가노트)
+
+- 신규 조사 2종 각 2점(적외선: 밑그림 투과, 자외선: 형광). 3 hidden×5 test=15 규칙, 호환표 12셀 추가. 전부 가상 모식 표기.
+- 전략 비교: `planCombos` — 숨은 상태 무관, 남은 예산 조합 최대 6개 (비용 내림차순). 조합표는 `strategy` 클래스로 증거표와 구분.
+- 전문가 노트 3점(유지 우선·덧칠의 역사성·어둠≠손상), 결정 화면 참고 박스.
+- `scenarioVersion` p1-5tests. 테스트 33개. render/access 회귀 PASS.
+
+## 2026-09-19 — 3·4·5 실측 (모션·axe·인쇄)
+
+- reduced-motion: 애니메이션 none + 3px 테두리 확인. `tests/access-check.mjs` 신설.
+- axe 5단계: deciding `aria-allowed-attr` critical 1건 → radio의 `aria-pressed` 제거·`aria-checked` 단일화, 선택 스타일 CSS 이관. 재측정 0건.
+- 인쇄: 에뮬레이션目视 정상, PDF 296KB 생성.
+
 ## 2026-09-19 — 700 단일 웨이트 (2번 선택)
 
 - 표시용 명조는 제목 bold(700)에서만 사용, 600은 시스템 폰트 영역 → 시각 변화 없이 폰트 260→141KB.

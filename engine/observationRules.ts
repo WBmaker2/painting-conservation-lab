@@ -22,10 +22,24 @@ export const TESTS: TestDef[] = [
     cost: 3,
     range: '검수된 층 단면 도식 (지지체/바탕/물감/표면/바니시)',
     limitations: '가상 단면 모식도. 실제 두께·재료 측정값이 아님.'
+  },
+  {
+    id: 'infrared',
+    label: '적외선 관찰 (P1)',
+    cost: 2,
+    range: '표면 아래 밑그림·덧칠 경계 (투과 도식)',
+    limitations: '가상 투과 모식도. 실제 장비 측정값·침투 깊이가 아님.'
+  },
+  {
+    id: 'ultraviolet',
+    label: '자외선 관찰 (P1)',
+    cost: 2,
+    range: '바니시 형광·보수 반점·오염 얼룩 (형광 도식)',
+    limitations: '가상 형광 모식도. 실제 형광 색·강도 측정값이 아님.'
   }
 ];
 
-export const SCENARIO_VERSION = 'p0-3works';
+export const SCENARIO_VERSION = 'p1-5tests';
 
 function ruleFor(hiddenStateId: string, testId: TestId): string {
   return `${hiddenStateId}::${testId}`;
@@ -76,6 +90,36 @@ const TEXT: Record<string, { short: string; long: string; kind: Observation['svg
     short: '물감층 자체가 어두움',
     long: '층 도식: 물감층 자체가 어두운 안료(엄버 계열)로 구성됨. 덧칠·침적층 없음. 바니시는 부분 황변.',
     kind: 'layers'
+  },
+  'grime-thin::infrared': {
+    short: '막을 투과한 붓결',
+    long: '적외선: 얇은 오염막을 투과해 아래 원래 붓결과 밑그림이 선명하게 보임. 덧칠 특유의 덮인 윤곽이 없음.',
+    kind: 'ir'
+  },
+  'grime-thin::ultraviolet': {
+    short: '얼룩덜룩한 막 형광',
+    long: '자외선: 표면막에서 얼룩덜룩한 형광이 보임. 고른 바니시 형광과도, 보수 반점과도 다른 양상.',
+    kind: 'uv'
+  },
+  'overpaint-cover::infrared': {
+    short: '덧칠 아래 밑그림',
+    long: '적외선: 덧칠층을 투과해 원래 밑그림(소묘)이 드러남. 표면 색의 윤곽과 밑그림이 어긋나 후대 개입을 시사.',
+    kind: 'ir'
+  },
+  'overpaint-cover::ultraviolet': {
+    short: '어두운 보수 반점',
+    long: '자외선: 덧칠 부위가 주변보다 어둡게(형광 억제) 보임. 보수 물질은 원래 바니시와 형광 특성이 다름.',
+    kind: 'uv'
+  },
+  'original-umber::infrared': {
+    short: '안료 자체의 흡수',
+    long: '적외선: 어두운 안료가 적외선을 흡수해 여전히 어둡게 보임. 밑그림 왜곡이나 덮인 윤곽이 없음.',
+    kind: 'ir'
+  },
+  'original-umber::ultraviolet': {
+    short: '고른 바니시 형광',
+    long: '자외선: 바니시 형광이 고르게 보임. 덧칠 특유의 어두운 반점이나 오염 얼룩이 없음.',
+    kind: 'uv'
   }
 };
 
@@ -106,4 +150,29 @@ export function observe(
 
 export function observationKey(o: Pick<Observation, 'artworkId' | 'regionId' | 'testId'>): string {
   return `${o.artworkId}/${o.regionId}/${o.testId}`;
+}
+
+// P1 복수 조사 전략 비교: 숨은 상태를 모르고 남은 예산으로 가능한 미사용 조사 조합.
+// 반환은 비용 내림차순. 정답 유출 없음 (비용표만 사용).
+export function planCombos(
+  remainingPts: number,
+  usedTestIds: TestId[],
+  maxLen = 3
+): { tests: TestId[]; cost: number }[] {
+  if (!Number.isFinite(remainingPts) || remainingPts <= 0) return [];
+  const pool = TESTS.filter((t) => !usedTestIds.includes(t.id));
+  const out: { tests: TestId[]; cost: number }[] = [];
+  const rec = (start: number, acc: TestId[], sum: number): void => {
+    for (let i = start; i < pool.length; i++) {
+      const next = sum + pool[i].cost;
+      if (next > remainingPts) continue;
+      const combo = [...acc, pool[i].id];
+      if (combo.length <= maxLen) {
+        out.push({ tests: combo, cost: next });
+        rec(i + 1, combo, next);
+      }
+    }
+  };
+  rec(0, [], 0);
+  return out.sort((a, b) => b.cost - a.cost || b.tests.length - a.tests.length).slice(0, 6);
 }

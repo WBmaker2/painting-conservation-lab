@@ -1,6 +1,6 @@
 import type { Artwork } from '../models/types.js';
 
-export const SCENARIO_VERSION = 'p0-3works';
+export const SCENARIO_VERSION = 'p1-5tests';
 
 export const CASES: Artwork[] = [
   {
@@ -9,6 +9,7 @@ export const CASES: Artwork[] = [
     story: '오른쪽 사과 그림자가 유난히 어둡다. 오염일까, 덧칠일까.',
     palette: ['#8a2f2b', '#2f4a3e', '#c9a227'],
     rightsNote: '가상 작품 · AI 생성 아님 · 코드 도식',
+    expertNote: '보존 관점: 경계가 흐릿한 어둠은 서두른 제거보다 기록·유지가 우선. 층 정보 없이 약품·제거를 논하지 않는다.',
     regions: [
       {
         id: 'apple-shadow',
@@ -48,6 +49,7 @@ export const CASES: Artwork[] = [
     story: '두건 아래 얼굴이 어둡다. 원래 음영일까, 나중 덧칠일까.',
     palette: ['#2b3a67', '#7a8ba6', '#d8cfae'],
     rightsNote: '가상 작품 · 실존 인물 아님',
+    expertNote: '보존 관점: 날카로운 경계+단차는 후대 개입의 단서. 그래도 덧칠 자체가 역사적 기록일 수 있어 제거가 정답이 아니다.',
     regions: [
       {
         id: 'hood-shade',
@@ -87,6 +89,7 @@ export const CASES: Artwork[] = [
     story: '갈대 사이 물가가 검다. 오염·덧칠·원래 안료 중 무엇일까.',
     palette: ['#3e5a3a', '#1e3a5f', '#8c7a4b'],
     rightsNote: '가상 작품 · 관측 도식용',
+    expertNote: '보존 관점: 원래 어두운 안료는 손상이 아니다. “어둡다=문제”라는 선입견이 과잉 개입을 부른다.',
     regions: [
       {
         id: 'water-dark',

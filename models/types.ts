@@ -1,5 +1,5 @@
 export type HypothesisId = 'surface-deposit' | 'overpaint' | 'original-dark';
-export type TestId = 'visibleZoom' | 'rakingLight' | 'layerDiagram';
+export type TestId = 'visibleZoom' | 'rakingLight' | 'layerDiagram' | 'infrared' | 'ultraviolet';
 export type DecisionAction = 'keep' | 'investigate' | 'simulatedRemovalPreview';
 export type Phase = 'observing' | 'testing' | 'evidence' | 'deciding' | 'report';
 export type Compat = 'compatible' | 'incompatible' | 'undetermined';
@@ -29,6 +29,7 @@ export interface Artwork {
   palette: [string, string, string];
   regions: RegionState[];
   rightsNote: string;
+  expertNote: string;
 }
 
 export interface TestDef {
@@ -45,7 +46,7 @@ export interface Observation {
   artworkId: string;
   textObservation: string;
   shortLabel: string;
-  svgKind: 'zoom' | 'rake' | 'layers';
+  svgKind: 'zoom' | 'rake' | 'layers' | 'ir' | 'uv';
   ruleId: string;
 }
 
