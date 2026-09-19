@@ -38,6 +38,12 @@
 - 렌더: 320·360·768·1280 넘침 0px·에러 0·CTA 1개. `npm run verify:render`로 재현. 샷 `/tmp/render-shots`目视 정상.
 - 미결: Lighthouse, 배포·HVC 주소 (배포처 확정 시).
 
+## 2026-09-19 — 앱 연결 (12작품·래스터·전수검수)
+
+- `scenarios/works/` 9작품 추가, `CASES` 12점, 숨은상태 8/8/8. `Artwork.images` 5종 경로.
+- 썸네일·확대·측면광 래스터 표시 + 영역 마스크 오버레이, 층도는 배경+코드 도식, 처리 전후 실사진 비교. SVG 폴백 유지.
+- 전수: 증거 텍스트는 규칙 그대로(이미지는 맥락용, 새 증거 생성 안 함). render/access 회귀 PASS, 화면目视 정상.
+
 ## 2026-09-19 — 이미지 파이프라인 (Flow Nano Banana 2, 0크레딧)
 
 - w01 시험 배치 6종 확정: full/zoom/rake/layerbg/after 생성 + before 재사용. WebP 전종 150KB 이하. `public/works/`, 원본 `assets/works/raw/`.

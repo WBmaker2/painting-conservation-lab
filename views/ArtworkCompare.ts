@@ -1,11 +1,11 @@
 import type { Artwork, Observation, RegionState } from '../models/types.js';
+import { getArtwork } from '../engine/caseModel.js';
 
 function esc(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 export function artworkThumbSVG(art: Artwork, selectedRegionId?: string): string {
-  const [c1, c2, c3] = art.palette;
   const regions = art.regions
     .map((r, i) => {
       const x = 18 + i * 52;
@@ -16,27 +16,34 @@ export function artworkThumbSVG(art: Artwork, selectedRegionId?: string): string
       </g>`;
     })
     .join('');
-  return `<svg viewBox="0 0 220 140" role="img" aria-label="${esc(art.fictionalTitle)} 전체 도식 — 가상 작품">
-    <rect x="4" y="4" width="212" height="132" rx="10" fill="${c2}" />
-    <ellipse cx="80" cy="62" rx="46" ry="30" fill="${c1}" opacity="0.92" />
-    <rect x="120" y="34" width="72" height="60" rx="6" fill="${c3}" opacity="0.85" />
-    <path d="M10 112 Q60 96 110 108 T210 104" stroke="rgba(255,255,255,0.7)" stroke-width="3" fill="none" stroke-linecap="round" />
+  return `<svg viewBox="0 0 220 140" role="img" aria-label="${esc(art.fictionalTitle)} 전체 — 가상 생성 이미지">
+    <image href="${esc(art.images.full)}" x="4" y="4" width="212" height="132" preserveAspectRatio="xMidYMid slice" />
+    <rect x="4" y="4" width="212" height="132" rx="10" fill="none" stroke="rgba(255,255,255,0.25)" />
     ${regions}
-    <text x="12" y="22" font-size="10" fill="#fff" opacity="0.9">가상 작품 · 도식</text>
+    <text x="12" y="22" font-size="10" fill="#fff" opacity="0.9">가상 이미지</text>
   </svg>`;
 }
 
 export function observationSVG(obs: Observation, region: RegionState | undefined): string {
   const label = esc(obs.shortLabel);
+  const art = getArtwork(obs.artworkId);
   if (obs.svgKind === 'layers') {
     return `<svg viewBox="0 0 260 150" role="img" aria-label="층 단면 도식: ${label}">
-      <rect x="6" y="6" width="248" height="138" rx="10" fill="#fff" stroke="#CBD5E1" />
+      ${art ? `<image href="${esc(art.images.layerbg)}" x="6" y="6" width="248" height="138" preserveAspectRatio="xMidYMid slice" opacity="0.35" />` : ''}
+      <rect x="6" y="6" width="248" height="138" rx="10" fill="rgba(255,255,255,0.88)" />
       <text x="16" y="24" font-size="11" font-weight="700" fill="#0F172A">층 단면 (모식도 · 과장)</text>
       ${layerRow(34, '지지체', '#94a3b8')}
       ${layerRow(54, '바탕', '#e2e8f0')}
       ${layerRow(74, paintLabel(obs.ruleId), '#1E3A5F')}
       ${extraLayer(obs.ruleId)}
       <text x="16" y="134" font-size="10" fill="#475569">${label}</text>
+    </svg>`;
+  }
+  if (obs.svgKind === 'rake' && art) {
+    return `<svg viewBox="0 0 260 150" role="img" aria-label="측면광 이미지: ${label}">
+      <image href="${esc(art.images.rake)}" x="6" y="6" width="248" height="138" preserveAspectRatio="xMidYMid slice" />
+      <rect x="6" y="112" width="248" height="32" fill="rgba(15,23,42,0.72)" />
+      <text x="16" y="132" font-size="10" fill="#e2e8f0">측면광 · 가상 이미지 — ${label}</text>
     </svg>`;
   }
   if (obs.svgKind === 'rake') {
@@ -47,6 +54,13 @@ export function observationSVG(obs: Observation, region: RegionState | undefined
       <rect x="30" y="60" width="200" height="38" rx="4" fill="#334155" />
       ${hasStep ? '<rect x="128" y="52" width="102" height="46" rx="4" fill="#475569" /><line x1="128" y1="52" x2="128" y2="98" stroke="#fbbf24" stroke-width="2" stroke-dasharray="4 3" />' : '<ellipse cx="130" cy="79" rx="80" ry="10" fill="#64748b" opacity="0.7" />'}
       <text x="16" y="132" font-size="10" fill="#cbd5e1">${label}${hasStep ? ' · 경계 단차(노랑 점선)' : ' · 단차 없음'}</text>
+    </svg>`;
+  }
+  if (obs.svgKind === 'zoom' && art) {
+    return `<svg viewBox="0 0 260 150" role="img" aria-label="확대 이미지: ${label}">
+      <image href="${esc(art.images.zoom)}" x="6" y="6" width="248" height="138" preserveAspectRatio="xMidYMid slice" />
+      <rect x="6" y="6" width="248" height="26" fill="rgba(15,23,42,0.72)" />
+      <text x="16" y="24" font-size="11" font-weight="700" fill="#fff">확대 — ${esc(region?.label ?? '')} · 가상 이미지</text>
     </svg>`;
   }
   if (obs.svgKind === 'ir') {

@@ -4,9 +4,18 @@ import { CASES } from '../scenarios/cases.js';
 import { TESTS, observe, observationKey } from '../engine/observationRules.js';
 
 describe('caseModel', () => {
-  it('작품 3점, 영역 각 2개', () => {
-    expect(CASES).toHaveLength(3);
+  it('작품 12점, 영역 각 2개', () => {
+    expect(CASES).toHaveLength(12);
     for (const a of CASES) expect(a.regions).toHaveLength(2);
+  });
+
+  it('숨은상태 균형 8/8/8, 전작품 이미지 5종', () => {
+    const counts: Record<string, number> = {};
+    for (const a of CASES) {
+      expect([a.images.full, a.images.zoom, a.images.rake, a.images.layerbg, a.images.after].every((p) => p.startsWith('./works/') && p.endsWith('.webp'))).toBe(true);
+      for (const r of a.regions) counts[r.hiddenStateId] = (counts[r.hiddenStateId] ?? 0) + 1;
+    }
+    expect(counts).toEqual({ 'grime-thin': 8, 'overpaint-cover': 8, 'original-umber': 8 });
   });
 
   it('모든 region의 hiddenStateId는 규칙표에 존재', () => {

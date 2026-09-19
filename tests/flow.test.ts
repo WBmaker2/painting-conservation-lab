@@ -28,7 +28,7 @@ describe('5단계 클릭 여정 (하위 경로 배포 전)', () => {
   it('관찰: 질문1+시작버튼1, 예측 미달이면 차단', () => {
     expect($('h1')?.textContent).toMatch(/바랜|덧칠/);
     expect($all('.gi-pulse')).toHaveLength(1);
-    expect($all('[data-art]')).toHaveLength(3);
+    expect($all('[data-art]')).toHaveLength(12);
     // 가설 2개 사전선택 중 2개를 해제 → 시작 차단
     click('[data-hyp="surface-deposit"]');
     click('[data-hyp="overpaint"]');

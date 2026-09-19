@@ -30,6 +30,13 @@ export interface Artwork {
   regions: RegionState[];
   rightsNote: string;
   expertNote: string;
+  images: {
+    full: string;
+    zoom: string;
+    rake: string;
+    layerbg: string;
+    after: string;
+  };
 }
 
 export interface TestDef {

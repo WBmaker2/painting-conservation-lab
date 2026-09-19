@@ -137,7 +137,7 @@ function render(): void {
   </main></div>
   <dialog id="changelog" aria-label="업데이트 내역">
     <h3 style="margin-top:0">업데이트 내역</h3>
-    <ul class="small"><li><strong>2026-09-19 (P1)</strong> — 적외선·자외선 조사, 예산 조합 안내, 전문가 관점.</li><li><strong>2026-09-19 (공개 배포)</strong> — 공개 URL에서 자산 200 확인.</li><li><strong>2026-09-19 (승인 후 실측)</strong> — 하위 경로·4폭 렌더·전 여정 클릭 확인, 테스트 25개.</li><li><strong>2026-09-19 (배포 전 개선)</strong> — 서브패스 경로·파비콘, 입력 검증·저장 복구·인쇄.</li><li><strong>2026-09-19 (P0 스캐폴드)</strong> — 작품 3점·영역 2개씩·조사 3종·예산 6점·증거연결·보고서.</li><li><strong>2026-09-15</strong> — 설계 확정 (공통원칙·09 문서).</li></ul>
+    <ul class="small"><li><strong>2026-09-19 (작품 12점)</strong> — 가상 작품 12점, 생성 이미지 연결.</li><li><strong>2026-09-19 (P1)</strong> — 적외선·자외선 조사, 예산 조합 안내, 전문가 관점.</li><li><strong>2026-09-19 (공개 배포)</strong> — 공개 URL에서 자산 200 확인.</li><li><strong>2026-09-19 (승인 후 실측)</strong> — 하위 경로·4폭 렌더·전 여정 클릭 확인, 테스트 25개.</li><li><strong>2026-09-19 (배포 전 개선)</strong> — 서브패스 경로·파비콘, 입력 검증·저장 복구·인쇄.</li><li><strong>2026-09-19 (P0 스캐폴드)</strong> — 작품 3점·영역 2개씩·조사 3종·예산 6점·증거연결·보고서.</li><li><strong>2026-09-15</strong> — 설계 확정 (공통원칙·09 문서).</li></ul>
     <button class="ghost-btn" id="closeLog" type="button">닫기</button>
   </dialog>`;
 
@@ -173,7 +173,7 @@ function visualPanel(): string {
         ${artworkThumbSVG(a, a.id === state.artworkId ? state.regionId : undefined)}
         <b>${escapeHtml(a.fictionalTitle)}</b><span>${escapeHtml(a.story)}</span>
       </button>`).join('')}</div>
-      <p class="small muted" style="margin-top:10px">${escapeHtml(getArtwork(state.artworkId)?.rightsNote ?? '')} · 이미지가 없어도 아래 표와 글로 과제를 수행할 수 있습니다.</p>`;
+      <p class="small muted" style="margin-top:10px">${escapeHtml(getArtwork(state.artworkId)?.rightsNote ?? '')} · 이미지 로드 실패 시 표와 글로 과제를 계속할 수 있습니다.</p>`;
   }
   if (state.phase === 'testing' || state.phase === 'evidence') {
     const region = currentRegion();
@@ -187,11 +187,14 @@ function visualPanel(): string {
       <p class="small muted mono">${escapeHtml(o.ruleId)} · ${escapeHtml(observationKey(o))}</p></div>`).join('')}</div>`;
   }
   if (state.phase === 'deciding') {
-    const before = getArtwork(state.artworkId);
-    return `${before ? artworkThumbSVG(before, state.regionId) : ''}
+    const art = getArtwork(state.artworkId);
+    const full = art ? escapeHtml(art.images.full) : '';
+    const after = art ? escapeHtml(art.images.after) : '';
+    const alt = escapeHtml(art?.fictionalTitle ?? '');
+    return `
     <div class="compare" style="margin-top:10px">
-      <div class="obs"><strong>처리 전 (현재)</strong><p class="small muted">가상 관찰 상태 그대로 둡니다.</p></div>
-      <div class="obs"><strong>가상 처리 후 (미리보기)</strong><p class="small muted">화면 효과일 뿐 실제 복원 결과가 아닙니다. 되돌리기를 제공합니다.</p></div>
+      <div class="obs"><img src="${full}" alt="${alt} 처리 전 — 가상 이미지" loading="lazy" style="width:100%;height:auto;border-radius:8px" /><strong>처리 전 (현재)</strong><p class="small muted">가상 관찰 상태 그대로 둡니다.</p></div>
+      <div class="obs"><img src="${after}" alt="${alt} 가상 처리 후 미리보기 — 가상 이미지" loading="lazy" style="width:100%;height:auto;border-radius:8px" /><strong>가상 처리 후 (미리보기)</strong><p class="small muted">화면 효과일 뿐 실제 복원 결과가 아닙니다. 되돌리기를 제공합니다.</p></div>
     </div>`;
   }
   const d = state.decision;
