@@ -6,22 +6,17 @@ function esc(s: string): string {
 }
 
 export function artworkThumbSVG(art: Artwork, selectedRegionId?: string): string {
-  const regions = art.regions
+  const marks = art.regions
     .map((r, i) => {
-      const x = 18 + i * 52;
       const selected = r.id === selectedRegionId;
-      return `<g>
-        <rect x="${x}" y="86" width="44" height="34" rx="4" fill="rgba(15,23,42,0.28)" stroke="${selected ? '#A16207' : '#ffffff'}" stroke-width="${selected ? 3 : 1.5}" stroke-dasharray="${selected ? '5 3' : 'none'}" />
-        <text x="${x + 22}" y="106" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">${i === 0 ? 'A' : 'B'}</text>
-      </g>`;
+      return `<span class="thumb-mark${selected ? ' on' : ''}" data-pos="${i === 0 ? 'A' : 'B'}">${i === 0 ? 'A' : 'B'}</span>`;
     })
     .join('');
-  return `<svg viewBox="0 0 220 140" role="img" aria-label="${esc(art.fictionalTitle)} 전체 — 가상 생성 이미지">
-    <image href="${esc(art.images.full)}" x="4" y="4" width="212" height="132" preserveAspectRatio="xMidYMid slice" />
-    <rect x="4" y="4" width="212" height="132" rx="10" fill="none" stroke="rgba(255,255,255,0.25)" />
-    ${regions}
-    <text x="12" y="22" font-size="10" fill="#fff" opacity="0.9">가상 이미지</text>
-  </svg>`;
+  return `<span class="thumb-wrap">
+    <img src="${esc(art.images.full)}" alt="${esc(art.fictionalTitle)} 전체 — 가상 이미지" loading="lazy" decoding="async" width="360" height="270" />
+    ${marks}
+    <span class="thumb-tag">가상 이미지</span>
+  </span>`;
 }
 
 export function observationSVG(obs: Observation, region: RegionState | undefined): string {

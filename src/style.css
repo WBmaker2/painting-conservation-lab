@@ -70,6 +70,12 @@ input,select,textarea{ font:inherit }
 .work:hover{ border-color:var(--navy) }
 .work[aria-pressed="true"]{ border:2px solid var(--navy); padding:9px }
 .work svg{ width:100%; height:auto; display:block; border-radius:8px }
+.thumb-wrap{ position:relative; display:block; border-radius:8px; overflow:hidden; aspect-ratio:4 / 3; background:#0F172A }
+.thumb-wrap img{ width:100%; height:100%; object-fit:cover; display:block }
+.thumb-mark{ position:absolute; bottom:8px; width:34px; height:26px; display:grid; place-items:center; font-size:12px; font-weight:700; color:#fff; background:rgba(15,23,42,0.55); border:1.5px solid #fff; border-radius:6px }
+.thumb-mark[data-pos="A"]{ left:10px } .thumb-mark[data-pos="B"]{ left:52px }
+.thumb-mark.on{ border:3px solid var(--accent); background:rgba(161,98,7,0.65) }
+.thumb-tag{ position:absolute; top:8px; left:10px; font-size:11px; color:#fff; opacity:0.9 }
 .work b{ display:block; margin-top:8px; font-size:14px }
 .work span{ font-size:13px; color:var(--muted) }
 
