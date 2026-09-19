@@ -38,6 +38,12 @@
 - 렌더: 320·360·768·1280 넘침 0px·에러 0·CTA 1개. `npm run verify:render`로 재현. 샷 `/tmp/render-shots`目视 정상.
 - 미결: Lighthouse, 배포·HVC 주소 (배포처 확정 시).
 
+## 2026-09-19 — 이미지 파이프라인 (Flow Nano Banana 2, 0크레딧)
+
+- w01 시험 배치 6종 확정: full/zoom/rake/layerbg/after 생성 + before 재사용. WebP 전종 150KB 이하. `public/works/`, 원본 `assets/works/raw/`.
+- 검수: 문자 없음, 비대상 영역 유지, 전후 동일 구도. layerbg 1회 정책 오탐지 → 문구 변경 후 성공.
+- `docs/ASSETS.md` 자산 목록 신설 (12작품 계획, 슬롯 정의, 프롬프트 템플릿).
+
 ## 2026-09-19 — vivehong 어드민 등록 (공개 반영 대기)
 
 - 중복 없음(제목·URL 무일치). 태그 5개 실존 확인: 미술·관찰·시뮬레이션·융합·과학 (화학·정보 미존재 → 과학·융합으로 대체, 자유입력 미사용).
