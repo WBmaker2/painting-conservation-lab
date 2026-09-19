@@ -25,6 +25,6 @@
 
 - [x] 하위 경로(`/painting-conservation-lab/`) 5단계 클릭 확인 — 서빙 200 + happy-dom 3개 + 실브라우저 2회
 - [x] 320·360·768·1280 렌더 확인 기록 — 넘침 0px·에러 0 (`tests/render-check.mjs`, `npm run verify:render`)
-- [ ] Lighthouse TTI·CLS 기록 (배포 URL 확정 후)
+- [x] Lighthouse TTI·CLS 기록 — 모바일 4.7s/0, 데스크톱 0.8s/0 (`docs/VERIFICATION.md` §4)
 - [x] 배포 주소 기재 — https://wbmaker2.github.io/painting-conservation-lab/
 - HVC 등록·갤러리 동기화는 별도 범위 (미등록).

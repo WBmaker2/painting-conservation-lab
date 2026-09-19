@@ -38,6 +38,11 @@
 - 렌더: 320·360·768·1280 넘침 0px·에러 0·CTA 1개. `npm run verify:render`로 재현. 샷 `/tmp/render-shots`目视 정상.
 - 미결: Lighthouse, 배포·HVC 주소 (배포처 확정 시).
 
+## 2026-09-19 — Lighthouse 실측 + 폰트 비동기화
+
+- 공개 URL 기준 Lighthouse 12 (headless chromium): 모바일 71점·TTI 4.7s·CLS 0, 데스크톱 99점·TTI 0.8s·CLS 0.
+- 병목은 Noto Serif KR woff2 7종 ≈260KB. 폰트 CSS 비동기화(0a8cc92) 시도 → lab 수치 무변화, 페이로드 자체가 문제라 디자인 변경(제거/단일 웨이트)은 선택지로 보류.
+
 ## 2026-09-19 — GitHub 배포 (공개 URL 확인)
 
 - 레포: https://github.com/WBmaker2/painting-conservation-lab (Public, main 단일 커밋 bd85e7f).
