@@ -137,7 +137,7 @@ function render(): void {
   </main></div>
   <dialog id="changelog" aria-label="업데이트 내역">
     <h3 style="margin-top:0">업데이트 내역</h3>
-    <ul class="small"><li><strong>2026-09-19 (승인 후 실측)</strong> — 하위 경로·4폭 렌더·전 여정 클릭 확인, 테스트 25개.</li><li><strong>2026-09-19 (배포 전 개선)</strong> — 서브패스 경로·파비콘, 입력 검증·저장 복구·인쇄.</li><li><strong>2026-09-19 (P0 스캐폴드)</strong> — 작품 3점·영역 2개씩·조사 3종·예산 6점·증거연결·보고서.</li><li><strong>2026-09-15</strong> — 설계 확정 (공통원칙·09 문서).</li></ul>
+    <ul class="small"><li><strong>2026-09-19 (공개 배포)</strong> — 공개 URL에서 자산 200 확인.</li><li><strong>2026-09-19 (승인 후 실측)</strong> — 하위 경로·4폭 렌더·전 여정 클릭 확인, 테스트 25개.</li><li><strong>2026-09-19 (배포 전 개선)</strong> — 서브패스 경로·파비콘, 입력 검증·저장 복구·인쇄.</li><li><strong>2026-09-19 (P0 스캐폴드)</strong> — 작품 3점·영역 2개씩·조사 3종·예산 6점·증거연결·보고서.</li><li><strong>2026-09-15</strong> — 설계 확정 (공통원칙·09 문서).</li></ul>
     <button class="ghost-btn" id="closeLog" type="button">닫기</button>
   </dialog>`;
 

@@ -47,6 +47,6 @@
 
 - [x] 하위 경로 서빙 확인: `dist`를 `/painting-conservation-lab/` 하위에 서빙, 페이지·JS·CSS·파비콘 전부 200, html 내 참조 전부 상대경로(`./`), 외부 절대경로는 폰트 CDN만.
 - [x] 5단계 클릭 확인: happy-dom 3개(`tests/flow.test.ts`) + 실브라우저 2회(360·1280) 전 여정 통과.
-- [x] 클릭 가능한 배포 주소 + HVC 확인용 주소 보고서 기재 → 배포처 확정 시 기재 (주소는 미확정).
+- [x] 클릭 가능한 배포 주소 기재 — https://wbmaker2.github.io/painting-conservation-lab/ (레포: https://github.com/WBmaker2/painting-conservation-lab). HVC 확인용 주소는 HVC 등록 시 기재.
 - [ ] Lighthouse TTI·CLS 실측 (미수행 — 배포 URL 확정 후).
 - HVC 등록·갤러리 동기화는 별도 범위.

@@ -37,3 +37,10 @@
 - 클릭: `tests/flow.test.ts` 3개 신설(happy-dom, 가드차단·전여정·복귀) — 총 25개 통과. `tests/render-check.mjs` 실브라우저 360·1280 전 여정 통과(예산 3/6·11행·저장 문구).
 - 렌더: 320·360·768·1280 넘침 0px·에러 0·CTA 1개. `npm run verify:render`로 재현. 샷 `/tmp/render-shots`目视 정상.
 - 미결: Lighthouse, 배포·HVC 주소 (배포처 확정 시).
+
+## 2026-09-19 — GitHub 배포 (공개 URL 확인)
+
+- 레포: https://github.com/WBmaker2/painting-conservation-lab (Public, main 단일 커밋 bd85e7f).
+- Pages: https://wbmaker2.github.io/painting-conservation-lab/ (Actions workflow build, workflow_dispatch 겸용).
+- 초회 실패 원인: push가 Pages 활성화보다 먼저 실행 → deploy 404. `gh run rerun --failed`로 재실행 후 build·deploy success.
+- 실서비스 확인: 페이지 200, JS·CSS·파비콘 200, 상대경로만. 공통원칙 §6-6 (하위 경로 자산·기능 직접 확인) 충족.
