@@ -38,6 +38,11 @@
 - 렌더: 320·360·768·1280 넘침 0px·에러 0·CTA 1개. `npm run verify:render`로 재현. 샷 `/tmp/render-shots`目视 정상.
 - 미결: Lighthouse, 배포·HVC 주소 (배포처 확정 시).
 
+## 2026-09-19 — 썸네일 lazy 전환 + 재측정
+
+- 12 썸네일을 SVG `image`에서 HTML `img loading=lazy`로 전환 (A/B 마스크·가상 태그 CSS 이관, 화면 동일).
+- 재측정: 73점·TTI 4.4s — 유의미 변화 없음. 첫 로딩 병목은 썸네일이 아니라 웹폰트로 확정.
+
 ## 2026-09-19 — 앱 연결 (12작품·래스터·전수검수)
 
 - `scenarios/works/` 9작품 추가, `CASES` 12점, 숨은상태 8/8/8. `Artwork.images` 5종 경로.
