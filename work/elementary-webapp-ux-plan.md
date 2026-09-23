@@ -116,5 +116,5 @@
 ## 승인된 릴리스 기록 (2026-09-23)
 
 - UX 검토 문서의 초기 범위에서는 빌드·자동 테스트·배포를 제외했으나, 후속 사용자 승인에 따라 `git diff --check`, `npm run check`, `npm test`(35개), `npm run build`를 실행했습니다. 모두 통과했습니다.
-- GitHub Pages 배포와 cache-bypass HTTP GET/asset 확인 결과는 작업 최종 릴리스 보고에 URL·Actions run·HTTP 증거와 함께 기록합니다.
+- 코드 커밋 `9761f8278d8e7ad3120c3bfaf4f18fef42d64cc5`는 [GitHub Actions Pages 배포 run 35861797561](https://github.com/WBmaker2/painting-conservation-lab/actions/runs/35861797561)에서 build와 deploy가 성공했습니다. [공개 Pages 주소](https://wbmaker2.github.io/painting-conservation-lab/)의 cache-bypass GET은 HTML 200(1,457 bytes), JS 200(61,945 bytes), CSS 200(10,131 bytes)을 반환했고 EDU-UX-008 문구도 배포 JS에서 확인했습니다.
 - 별도 브라우저 TaskSpace를 만들지 않았으며 공개 사이트의 browser-flow·console은 재검증하지 않았습니다.
