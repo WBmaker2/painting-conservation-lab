@@ -6,36 +6,36 @@ export const TESTS: TestDef[] = [
     id: 'visibleZoom',
     label: '확대 관찰',
     cost: 1,
-    range: '관심 영역 표면 ×20, 색·입자·경계',
+    range: '관심 영역 표면 ×20, 색·입자·경계 (가상 설명)',
     limitations: '내부 층을 직접 보여주지 않음. 표면만으로 단정 금지.'
   },
   {
     id: 'rakingLight',
     label: '측면광 관찰',
     cost: 2,
-    range: '옆에서 비춘 빛, 표면 요철·덧칠 단차',
+    range: '옆에서 비춘 빛, 표면 요철·덧칠 단차 (가상 설명)',
     limitations: '두께 수치가 아님. 높이는 과장 표시될 수 있음.'
   },
   {
     id: 'layerDiagram',
     label: '층 정보 확인',
     cost: 3,
-    range: '검수된 층 단면 도식 (지지체/바탕/물감/표면/바니시)',
+    range: '가상 그림 단면 (천·나무 받침, 바탕층, 물감, 표면 코팅)',
     limitations: '가상 단면 모식도. 실제 두께·재료 측정값이 아님.'
   },
   {
     id: 'infrared',
-    label: '적외선 관찰 (P1)',
+    label: '적외선 관찰 (가상 모형)',
     cost: 2,
-    range: '표면 아래 밑그림·덧칠 경계 (투과 도식)',
+    range: '표면 아래 밑그림·덧칠 경계 (가상 투과 모형)',
     limitations: '가상 투과 모식도. 실제 장비 측정값·침투 깊이가 아님.'
   },
   {
     id: 'ultraviolet',
-    label: '자외선 관찰 (P1)',
+    label: '자외선 관찰 (가상 모형)',
     cost: 2,
-    range: '바니시 형광·보수 반점·오염 얼룩 (형광 도식)',
-    limitations: '가상 형광 모식도. 실제 형광 색·강도 측정값이 아님.'
+    range: '바니시(표면 보호 투명 코팅)의 빛 반응·보수 반점·오염 얼룩 (가상 모형)',
+    limitations: '빛 반응을 그린 가상 모식도. 실제 색·밝기를 측정한 결과가 아님.'
   }
 ];
 
@@ -58,7 +58,7 @@ const TEXT: Record<string, { short: string; long: string; kind: Observation['svg
   },
   'grime-thin::layerDiagram': {
     short: '물감 위 얇은 침적층',
-    long: '층 도식: 지지체–바탕–물감층(원형 유지) 위에 얇은 표면침적층이 덮임. 덧칠층 없음. 바니시는 황변 없이 고름.',
+    long: '층 도식: 지지체–바탕층–물감층(원래 모습 유지) 위에 얇은 먼지층이 덮임. 덧칠층 없음. 바니시는 누렇게 변하지 않고 고름.',
     kind: 'layers'
   },
   'overpaint-cover::visibleZoom': {
@@ -97,8 +97,8 @@ const TEXT: Record<string, { short: string; long: string; kind: Observation['svg
     kind: 'ir'
   },
   'grime-thin::ultraviolet': {
-    short: '얼룩덜룩한 막 형광',
-    long: '자외선: 표면막에서 얼룩덜룩한 형광이 보임. 고른 바니시 형광과도, 보수 반점과도 다른 양상.',
+    short: '얼룩덜룩한 막의 빛 반응',
+    long: '자외선: 표면막에서 얼룩덜룩한 빛 반응이 보임. 바니시의 고른 빛 반응과도, 보수 반점과도 다른 양상.',
     kind: 'uv'
   },
   'overpaint-cover::infrared': {
@@ -108,7 +108,7 @@ const TEXT: Record<string, { short: string; long: string; kind: Observation['svg
   },
   'overpaint-cover::ultraviolet': {
     short: '어두운 보수 반점',
-    long: '자외선: 덧칠 부위가 주변보다 어둡게(형광 억제) 보임. 보수 물질은 원래 바니시와 형광 특성이 다름.',
+    long: '자외선: 덧칠 부위가 주변보다 어둡게 보임. 보수 물질은 원래 바니시와 빛 반응이 다름.',
     kind: 'uv'
   },
   'original-umber::infrared': {
@@ -117,8 +117,8 @@ const TEXT: Record<string, { short: string; long: string; kind: Observation['svg
     kind: 'ir'
   },
   'original-umber::ultraviolet': {
-    short: '고른 바니시 형광',
-    long: '자외선: 바니시 형광이 고르게 보임. 덧칠 특유의 어두운 반점이나 오염 얼룩이 없음.',
+    short: '고른 바니시의 빛 반응',
+    long: '자외선: 바니시의 빛 반응이 고르게 보임. 덧칠 특유의 어두운 반점이나 오염 얼룩이 없음.',
     kind: 'uv'
   }
 };

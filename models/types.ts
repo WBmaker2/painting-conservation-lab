@@ -60,6 +60,9 @@ export interface Observation {
 export interface EvidenceLink {
   observationKey: string;
   hypothesisId: HypothesisId;
+  /** 학생이 고른 판단. 없으면 이전 기록이거나 아직 입력하지 않은 상태입니다. */
+  studentVerdict?: Compat;
+  /** 가상 모형의 기준 판정으로, studentVerdict와 별도로 보존합니다. */
   verdict: Compat;
   memo: string;
 }

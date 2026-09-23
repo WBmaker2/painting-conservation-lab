@@ -22,21 +22,21 @@ Vite + TS (static build, no SSR). User chose Vite + TS in init round 2026-09-19.
 
 ## Positioning
 
-오래된 물건 탐구/이미지 편집과 달리 층 구조(support/ground/paintLayers/surfaceDeposit/varnishState/damageType) + 제한 예산(6점) + 유한 상태 사건 모델(hiddenState + observationRuleId)로 가설(표면오염/후대덧칠/원래어두운안료)을 구별하는 근거 게임. 실제 처리 지침이 아님을 명시.
+현재 앱에는 가상 작품 12점과 가상 조사 5종(확대 관찰·측면광 관찰·층 정보 확인·적외선 관찰·자외선 관찰)이 있습니다. 학생은 제한된 조사 점수로 모형 결과를 살펴보고 가설을 비교합니다. 모든 결과는 코드로 만든 가상 설명이며 실제 작품의 측정·진단이 아닙니다. 실물 보존 처치 지침도 제공하지 않습니다.
 
 ## Operating Context
 
-- 30분 흐름: 5분 가설 2개 제안 → 5분 예산 내 조사 1개 선택 → 10분 증거-가설 연결 + 추가조사 → 5분 유지/추가조사/가상처리미리보기 결정 → 5분 기대효과·불확실성·reversibility 설명.
+- 30분 흐름: 5분 가설 2개 제안 → 5분 조사 점수 6점 안에서 조사 선택 → 10분 학생 판단과 가상 모형 판단 비교 → 5분 유지/추가 조사/가상 미리보기 결정 → 5분 기대 효과·불확실성·되돌림 생각 기록.
 - 상태머신: observing → testing → evidence → deciding → report. 조사 완료 후에만 비용 차감. 로드 실패 시 비용 미차감 + 재시도/텍스트 대체.
 - 미리보기는 가상 결과, 되돌리기 제공, 실제 복원 주장 금지.
 
 ## Capabilities and Constraints
 
-- P0 확정: 가상 작품 3점 × 관심영역 2개, 조사 3종 (visibleZoom 1점 / rakingLight 2점 / layerDiagram 3점), 예산 6점, 증거 연결(compatible/incompatible/undetermined), 결정(keep/investigate/simulatedRemovalPreview) + 보고.
+- 현행 앱: 가상 작품 12점 × 작품별 관심영역 2개, 가상 조사 5종 (확대 관찰 1점 / 측면광 관찰 2점 / 층 정보 확인 3점 / 적외선 관찰 2점 / 자외선 관찰 2점), 조사 점수 6점, 학생 판단과 가상 모형 판단을 나란히 기록, 보존 판단 + 보고.
 - 엔진은 렌더러 분리 순수함수: caseModel.ts, observationRules.ts, evidenceValidator.ts, budget.ts. 각 500줄 미만. 입력 유효범위·NaN/Infinity/중복실행 차단. seed·engineVersion·scenarioVersion 저장해 재현.
-- P1 제외: IR/UV 전문관찰, 약품·농도·처리시간, 실제작품 자동진단, 원래모습 자동확정.
+- 제외: 실제 적외선·자외선 장비 관찰, 약품·농도·처리시간, 실제 작품 자동 진단, 원래 모습 자동 확정, 전문 처치 권고.
 - UI 제약(공통원칙): 밝은 한국어 UI, 첫 화면 질문 1 + 시작 버튼 1. 주요 화면 미션/실험/비교/기록. gi-pulse는 중요 다음 행동 1개만. reduced-motion 정적 테두리. 색만으로 상태 구분 금지. VoiceOver 구현 제외. 업데이트 내역 버튼 상시. localStorage는 비식별 실험기록만, 불가 시 세션+JSON 내보내기.
-- 이미지: P0 3점×6종=18 자산 목표이나 이번 스캐폴드는 코드·SVG·Canvas 도식으로 대체, 생성 이미지 없음. 가상 자료 표기 필수.
+- 이미지와 조사 표현은 가상 작품 자산 및 코드 기반 도식·설명입니다. 조사 결과를 실측값으로 표현하지 않으며 가상 자료 표기를 유지합니다.
 - Undecided: HVC 등록/공개 갤러리 동기화는 별도 범위. 실제 배포 URL 미정.
 
 ## Brand Commitments
@@ -48,8 +48,16 @@ Vite + TS (static build, no SSR). User chose Vite + TS in init round 2026-09-19.
 ## Evidence on Hand
 
 - 설계 문서: 00-shared-design-principles.md, 09-painting-conservation-lab.md (경로: 프로젝트 루트). 예제 사건: 표면오염 vs 덧칠 유사 사건에서 층 정보 확인 전 제거 보류.
-- 실측 데이터·이미지 자산 없음. 이번 스캐폴드의 작품/관찰 텍스트는 synthetic placeholder이며 실측 아님.
+- 실측 데이터와 실물 작품 사진은 없습니다. 앱의 작품 이미지와 관찰 텍스트는 가상 사례를 위한 합성 자산이며 실측 자료가 아닙니다.
 - Absence: 실 작품 사진, 화학 반응식 실측, 성취기준 공식 매핑 없음 — fabricate 금지.
+
+## Learner terms
+
+- 지지체: 그림을 받치는 천·나무 등의 재료.
+- 바탕층: 물감이 붙도록 미리 준비한 층.
+- 안료: 물감의 색을 내는 재료.
+- 바니시: 투명한 코팅으로 색·표면 광택과 보호에 관련됨.
+- 기준 용어 확인: [Canadian Conservation Institute, Know Your Paintings](https://www.canada.ca/en/conservation-institute/services/conservation-preservation-publications/canadian-conservation-institute-notes/know-your-paintings-deterioration.html).
 
 ## Product Principles
 

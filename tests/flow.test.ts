@@ -15,6 +15,13 @@ function click(sel: string): void {
 function phase(): string {
   return $('[aria-current="step"]')?.textContent ?? '';
 }
+function choosePredictions(): void {
+  click('[data-hyp="surface-deposit"]');
+  click('[data-hyp="overpaint"]');
+}
+function judgeAllEvidence(): void {
+  for (let i = 0; i < $all('.evidence-choice').length; i++) click(`[data-verdict="${i}:undetermined"]`);
+}
 
 beforeEach(async () => {
   vi.resetModules();
@@ -28,23 +35,22 @@ describe('5단계 클릭 여정 (하위 경로 배포 전)', () => {
   it('관찰: 질문1+시작버튼1, 예측 미달이면 차단', () => {
     expect($('h1')?.textContent).toMatch(/바랜|덧칠/);
     expect($all('.gi-pulse')).toHaveLength(1);
-    expect($all('[data-art]')).toHaveLength(12);
-    // 가설 2개 사전선택 중 2개를 해제 → 시작 차단
-    click('[data-hyp="surface-deposit"]');
-    click('[data-hyp="overpaint"]');
+    expect($all('[data-art]')).toHaveLength(11);
+    expect($('.other-works')?.hasAttribute('open')).toBe(false);
+    // 가설을 직접 고르지 않으면 시작할 수 없음
     click('#startBtn');
     expect(phase()).toMatch(/관찰/);
-    expect($('[role="alert"]')?.textContent).toMatch(/2개 이상/);
+    expect($('[role="alert"]')?.textContent).toMatch(/정확히 2개/);
     // 복구 후 통과
-    click('[data-hyp="surface-deposit"]');
-    click('[data-hyp="overpaint"]');
+    choosePredictions();
     click('#startBtn');
     expect(phase()).toMatch(/조사/);
   });
 
   it('조사→증거→결정→보고 전 여정, 예산 6-1-2=3', () => {
+    choosePredictions();
     click('#startBtn');
-    expect(document.body.textContent).toMatch(/6 \/ 6/);
+    expect(document.body.textContent).toMatch(/조사 점수 6\/6/);
     click('[data-test="visibleZoom"]');
     expect(document.body.textContent).toMatch(/5 \/ 6/);
     expect($('[data-test="visibleZoom"]')?.hasAttribute('disabled')).toBe(true);
@@ -53,8 +59,9 @@ describe('5단계 클릭 여정 (하위 경로 배포 전)', () => {
 
     click('[data-goto="evidence"]');
     expect(phase()).toMatch(/증거/);
-    expect($all('table.compat tbody tr').length).toBeGreaterThan(0);
-    expect(document.body.textContent).toMatch(/층 구조 표/);
+    expect(document.body.textContent).toMatch(/아직 층 정보를 확인하지 않았어요/);
+    expect($('table.compat')).toBeNull();
+    judgeAllEvidence();
 
     click('[data-goto="deciding"]');
     click('[data-action="investigate"]');
@@ -77,9 +84,25 @@ describe('5단계 클릭 여정 (하위 경로 배포 전)', () => {
   });
 
   it('관찰 없이 증거 진입 시 조사 단계로 복귀', () => {
+    choosePredictions();
     click('#startBtn');
     click('[data-goto="evidence"]');
     expect(phase()).toMatch(/조사/);
-    expect($('[role="alert"]')?.textContent).toMatch(/1개 이상/);
+    expect($('[role="alert"]')?.textContent).toMatch(/조사를 1개 이상/);
+  });
+
+  it('층 정보 확인 전에는 표를 숨기고 조사 후에만 가상 층 표를 표시', () => {
+    choosePredictions();
+    click('#startBtn');
+    click('[data-test="visibleZoom"]');
+    click('[data-goto="evidence"]');
+    expect(document.body.textContent).toMatch(/아직 층 정보를 확인하지 않았어요/);
+    expect($('table.compat')).toBeNull();
+
+    click('#main button[data-goto="testing"]');
+    click('[data-test="layerDiagram"]');
+    click('[data-goto="evidence"]');
+    expect($('table.compat')).not.toBeNull();
+    expect(document.body.textContent).toMatch(/아래 도식은 층을 이해하기 위한 가상 모형이며 실제 두께나 재료를 측정한 결과가 아닙니다/);
   });
 });

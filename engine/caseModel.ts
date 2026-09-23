@@ -23,7 +23,7 @@ export function validatePrediction(hypotheses: string[]): { ok: boolean; reason?
   if (!Array.isArray(hypotheses)) return { ok: false, reason: '예측 형식이 올바르지 않습니다.' };
   const allowed = new Set(['surface-deposit', 'overpaint', 'original-dark']);
   const clean = hypotheses.filter((h) => allowed.has(h));
-  if (clean.length < 2) return { ok: false, reason: '서로 다른 가설 2개 이상을 고르세요. (표면오염/덧칠/원래안료 중 2개)' };
+  if (clean.length !== 2) return { ok: false, reason: '서로 다른 가설을 정확히 2개 고르세요.' };
   if (new Set(clean).size !== clean.length) return { ok: false, reason: '중복된 가설이 있습니다.' };
   return { ok: true };
 }

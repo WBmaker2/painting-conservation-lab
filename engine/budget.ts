@@ -19,7 +19,7 @@ export function canAfford(b: BudgetState, cost: number, key: string): { ok: bool
   if (!Number.isFinite(cost) || cost < 0) return { ok: false, reason: '비용이 올바르지 않습니다.' };
   if (!key) return { ok: false, reason: '조사 키가 없습니다.' };
   if (b.usedKeys.includes(key)) return { ok: false, reason: '이미 완료한 조사는 다시 차감하지 않습니다.' };
-  if (cost > remaining(b)) return { ok: false, reason: `예산 부족 — 남은 ${remaining(b)}점, 필요 ${cost}점` };
+  if (cost > remaining(b)) return { ok: false, reason: `조사 점수 부족 — 남은 ${remaining(b)}점, 필요한 점수 ${cost}점` };
   return { ok: true };
 }
 

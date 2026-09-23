@@ -1,7 +1,7 @@
-# Surface brief — painting-conservation-lab P0 (Operate)
+# Surface brief — painting-conservation-lab (Operate)
 
-Scope: 가상 보존 연구실 첫 화면~보고 5단계. Visitor mode: Operate.
-Audience/job/action: 중·고생 + 교사, 30분 수업, 예측→조사→증거연결→결정→보고. Primary action: 예산 6점 안에서 조사 선택 후 근거 있는 보존 결정.
+Scope: 가상 작품 12점, 작품별 관심 영역 2곳, 가상 조사 5종을 사용하는 첫 화면~보고 5단계. 결과는 실제 측정·진단이 아닙니다. Visitor mode: Operate.
+Audience/job/action: 중·고생 + 교사, 30분 수업, 예측→조사→학생·모형 판단 비교→결정→보고. Primary action: 조사 점수 6점(실제 비용 아님) 안에서 가상 조사를 골라 근거를 비교하고 보존 판단 기록.
 
 ## Direction contract
 
@@ -9,9 +9,9 @@ THESIS: 보존실 라이트박스 위에 놓인 트레이 — 밝은 실험대, 
 
 OWN-WORLD: 제도실 밝기 — 종이 #F8FAFC ground, 잉크 네이비 #1E3A5F, 연구 황토 #A16207 accent 1개만. 12-col 스위스 그리드, 헤어라인 1px, radius 12-14px, elevation은 border 또는 shadow 중 하나. 서체: 본문 Pretendard/system, 제목 Noto Serif KR. 상태는 색+문구+모양(●▲■) 병기.
 
-STORY: 학생은 어두운 얼룩의 원인 2개를 예측하고, 확대/측면광/층정보 중 하나를 골라 예산을 쓰고, 관찰-가설 호환표를 채운 뒤 유지/추가조사/가상미리보기 중 하나를 고른다. 성공은 예쁜 결과가 아니라 보류할 수 있는 이유다.
+STORY: 학생은 어두운 얼룩의 원인 가설 2개를 고르고 확대·측면광·층 정보·적외선·자외선의 가상 조사 결과를 살펴본다. 관찰마다 직접 지지·반박·미정을 선택하고, 가상 모형의 판단과 이유를 비교한 뒤 결정을 기록한다. 모든 조사 결과와 이미지 표현은 가상이며 실제 작품 진단이나 처치 안내가 아니다.
 
-FIRST VIEWPORT: 첫 화면 — 상단 얇은 바(가상자료 표기+업데이트 내역), 중앙 질문 1줄 “어두운 부분, 바랜 걸까 덧칠한 걸까?”, 가상 정물 썸네일 3점(라이트박스 타일), 하단 gi-pulse 시작 버튼 1개. 데스크톱은 좌 시각(라이트박스)/우 조건 패널 병렬, 모바일은 시각→조건→실행→결과 적층.
+FIRST VIEWPORT: 첫 화면 — 상단 얇은 바(가상자료 표기+업데이트 내역), 중앙 질문 “어두운 부분, 바랜 걸까 덧칠한 걸까?”, 선택 작품 한 점과 닫힌 ‘다른 작품 선택’ 목록, 조사 점수 6점(실제 비용 아님), 하단 gi-pulse 시작 버튼 1개. 데스크톱은 시각/조건 패널 병렬, 모바일은 선택 작품→조건→실행→결과 순서.
 
 FORM: grounded #6 ‘라이트박스 + 층서 트레이’, seed 810f0ce0 assigned 6. 선택 이유: 교실 밝기·비교 과업·표/도식 중심에 가장 정확. challenger 판정: silk-cape declined, rain-garden declined, leather-shelf declined, transit-map competitive, one-bit declined, cutting-bench competitive.
 
@@ -27,7 +27,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
 ## Scope / anti-goals
 
-- P0만. IR/UV, 약품, 실제진단, 자동복원 제외. Three.js 제외, 2D SVG/표만.
+- 실제 IR/UV 장비 결과, 약품·처치 지침, 실제 진단과 자동 복원은 범위 밖. 현재 앱의 적외선·자외선 결과도 가상 모형입니다. Three.js 제외, 2D SVG/표만.
 - 이미지 생성 없음 — SVG 도식+표로 판단 가능해야 함.
 
 ## States

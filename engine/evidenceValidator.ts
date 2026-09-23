@@ -54,7 +54,7 @@ const MATRIX: Matrix = {
     'original-dark': { verdict: 'undetermined', memo: '원래 안료의 붓결도 투과되어 보일 수 있음' }
   },
   'grime-thin::ultraviolet': {
-    'surface-deposit': { verdict: 'compatible', memo: '표면막 특유의 얼룩 형광' },
+    'surface-deposit': { verdict: 'compatible', memo: '표면막 특유의 얼룩진 빛 반응' },
     'overpaint': { verdict: 'incompatible', memo: '보수 반점 양상이 없음' },
     'original-dark': { verdict: 'undetermined', memo: '원래 안료 위 오염도 가능해 단독 확정 불가' }
   },
@@ -65,8 +65,8 @@ const MATRIX: Matrix = {
   },
   'overpaint-cover::ultraviolet': {
     'surface-deposit': { verdict: 'incompatible', memo: '오염 얼룩이 아닌 보수 반점 양상' },
-    'overpaint': { verdict: 'compatible', memo: '덧칠 부위의 형광 억제 반점' },
-    'original-dark': { verdict: 'incompatible', memo: '원래 바니시면 고른 형광이어야 함' }
+    'overpaint': { verdict: 'compatible', memo: '덧칠 부위의 빛 반응이 억제된 반점' },
+    'original-dark': { verdict: 'incompatible', memo: '원래 바니시면 빛 반응이 고르게 보여야 함' }
   },
   'original-umber::infrared': {
     'surface-deposit': { verdict: 'undetermined', memo: '얇은 오염도 적외선을 투과해 구별 불가' },
@@ -76,7 +76,7 @@ const MATRIX: Matrix = {
   'original-umber::ultraviolet': {
     'surface-deposit': { verdict: 'undetermined', memo: '얇은 오염도 고르게 보일 수 있어 단독 판단 불가' },
     'overpaint': { verdict: 'incompatible', memo: '보수 반점이 없음' },
-    'original-dark': { verdict: 'compatible', memo: '고른 바니시 형광, 덧칠·오염 징후 없음' }
+    'original-dark': { verdict: 'compatible', memo: '고른 바니시 빛 반응, 덧칠·오염 징후 없음' }
   }
 };
 
@@ -97,18 +97,22 @@ export function summarizeConsistency(links: EvidenceLink[]): {
   message: string;
 } {
   if (links.length === 0) {
-    return { blockedRash: true, message: '연결된 증거가 없습니다. 단정을 보류하세요.' };
+    return { blockedRash: true, message: '비교할 관찰이 아직 없어요. 먼저 가상 조사를 하나 선택해 주세요.' };
   }
-  const hasCompat = links.some((l) => l.verdict === 'compatible');
-  const hasIncompat = links.some((l) => l.verdict === 'incompatible');
+  const judged = links.filter((l) => l.studentVerdict);
+  if (judged.length < links.length) {
+    return { blockedRash: true, message: `아직 ${links.length - judged.length}개 판단이 남았습니다. 관찰마다 가설을 지지·반박하거나 미정으로 골라 주세요.` };
+  }
+  const hasCompat = judged.some((l) => l.studentVerdict === 'compatible');
+  const hasIncompat = judged.some((l) => l.studentVerdict === 'incompatible');
   if (!hasCompat && !hasIncompat) {
-    return { blockedRash: true, message: '아직 구별되지 않습니다 (undetermined만 존재). 추가 조사 또는 보류를 고르세요.' };
+    return { blockedRash: true, message: '고른 조사만으로는 아직 구별하기 어려워요. 추가 조사를 하거나 판단을 미뤄 보세요.' };
   }
   return {
     blockedRash: false,
     message: hasIncompat
-      ? '일부 가설이 반박되었습니다. 남은 가설의 근거를 보고서에 적으세요.'
-      : '지지 증거가 있습니다. 그래도 불확실성과 되돌림을 함께 적으세요.'
+      ? '학생 판단에서 일부 가설을 반박했습니다. 아래에서 가상 모형의 판정과 이유를 비교해 보세요.'
+      : '학생 판단에서 지지한 가설이 있습니다. 가상 모형의 판정과 불확실성도 비교해 보세요.'
   };
 }
 

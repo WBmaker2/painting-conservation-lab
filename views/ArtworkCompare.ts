@@ -74,7 +74,7 @@ export function observationSVG(obs: Observation, region: RegionState | undefined
       : '<rect x="30" y="66" width="200" height="38" rx="6" fill="#4c1d95" opacity="0.55" />';
     return `<svg viewBox="0 0 260 150" role="img" aria-label="자외선 도식: ${label}">
       <rect x="6" y="6" width="248" height="138" rx="10" fill="#1e1033" />
-      <text x="16" y="26" font-size="11" fill="#ddd6fe">자외선 — 형광 (가상 모식)</text>
+      <text x="16" y="26" font-size="11" fill="#ddd6fe">자외선 — 빛에 대한 반응 (가상 모식)</text>
       ${patches}
       <text x="16" y="132" font-size="10" fill="#ddd6fe">${label}</text>
     </svg>`;
@@ -109,7 +109,7 @@ function paintLabel(ruleId: string): string {
 
 function extraLayer(ruleId: string): string {
   if (ruleId.startsWith('grime')) {
-    return `<rect x="16" y="94" width="228" height="12" rx="3" fill="#a8a29e" stroke-dasharray="4 3" stroke="#78716c" /><text x="24" y="103" font-size="9" fill="#1c1917">표면침적층 (얇음) ●</text>`;
+    return `<rect x="16" y="94" width="228" height="12" rx="3" fill="#a8a29e" stroke-dasharray="4 3" stroke="#78716c" /><text x="24" y="103" font-size="9" fill="#1c1917">얇은 먼지 막 ●</text>`;
   }
   if (ruleId.startsWith('overpaint')) {
     return `<rect x="16" y="94" width="228" height="12" rx="3" fill="#A16207" /><text x="24" y="103" font-size="9" fill="#fff">덧칠층 ▲ — 아래 붓결 보존</text>`;
